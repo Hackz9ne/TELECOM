@@ -5,45 +5,41 @@
     <style>
         body { font-family: sans-serif; padding: 20px; background: #1c1c1c; color: white; }
         input, select, textarea { width: 100%; margin-bottom: 15px; padding: 10px; border-radius: 8px; border: none; box-sizing: border-box; }
-        label { display: block; margin-bottom: 5px; font-size: 14px; color: #aaa; }
-        button { width: 100%; padding: 12px; background: #248bcf; color: white; border: none; border-radius: 8px; font-weight: bold; }
+        button { width: 100%; padding: 12px; background: #248bcf; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
     <h3>Create Project Bill</h3>
-    <label>Phone Number</label>
-    <input type="text" id="phone" placeholder="+123456789">
-    
-    <label>Reg Date Link (@userinfobot)</label>
-    <input type="text" id="reg_date" placeholder="https://t.me/m/...">
-
-    <label>Platform</label>
+    <input type="text" id="phone" placeholder="Phone Number">
+    <input type="text" id="reg_date" placeholder="Reg Date Link">
     <select id="app_type">
-        <option value="Mobile App">Mobile App</option>
         <option value="Website">Website</option>
-        <option value="Telegram Bot">Telegram Bot</option>
+        <option value="App">App</option>
     </select>
+    <textarea id="requirements" placeholder="Requirements"></textarea>
+    <textarea id="description" placeholder="Full Description"></textarea>
 
-    <label>Requirements</label>
-    <textarea id="reqs" rows="3"></textarea>
-
-    <label>Full Description</label>
-    <textarea id="desc" rows="3"></textarea>
-
-    <button onclick="submit()">Submit Bill</button>
+    <!-- Renamed function to sendData -->
+    <button type="button" onclick="sendDataToBot()">Submit Bill</button>
 
     <script>
         let tg = window.Telegram.WebApp;
         tg.expand();
-        function submit() {
+
+        function sendDataToBot() {
             let data = {
                 phone: document.getElementById('phone').value,
                 reg_date: document.getElementById('reg_date').value,
                 app_type: document.getElementById('app_type').value,
-                requirements: document.getElementById('reqs').value,
-                description: document.getElementById('desc').value
+                requirements: document.getElementById('requirements').value,
+                description: document.getElementById('description').value
             };
-            tg.sendData(JSON.stringify(data));
+            
+            // This line only works if opened as a POPUP
+            tg.sendData(JSON.stringify(data)); 
+            
+            // Also try closing the app to show it worked
+            tg.close();
         }
     </script>
 </body>
